@@ -1,0 +1,11 @@
+
+DADOS DE RESERVAS DA API:
+Arquivo salvo: reservas_API_20230118_20231218_20250818_082806.csv
+Período: 2023-01-18 até 2023-12-18
+Total de reservas no sistema: 0
+Total de páginas: 1
+Reservas carregadas nesta consulta: 0
+Última atualização: 2025-08-18 08:28:06
+
+Resumo dos dados:
+Nenhum dado encontrado

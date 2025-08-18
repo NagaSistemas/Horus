@@ -1,0 +1,6 @@
+fastapi
+uvicorn
+openai
+llama-index
+pandas
+python-dotenv

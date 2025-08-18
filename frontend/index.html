@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hórus | Gestão Hoteleira Inteligente</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="bg-gray-50 font-sans">
+    <div class="flex h-screen overflow-hidden">
+        <!-- Sidebar -->
+        <div class="sidebar bg-indigo-900 text-white w-64 flex-shrink-0 transition-all duration-300 ease-in-out">
+            <div class="flex items-center justify-between p-4 border-b border-indigo-800">
+                <div class="flex items-center space-x-2">
+                    <i class="fas fa-hotel text-2xl text-white"></i>
+                    <span class="text-xl font-bold">Hórus</span>
+                </div>
+                <button id="sidebar-close" class="md:hidden text-white">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="p-4">
+                <div class="mb-6">
+                    <div class="text-xs uppercase font-semibold text-indigo-300 mb-2">Menu Principal</div>
+                    <ul>
+                        <li class="mb-1">
+                            <a href="#" id="btn-dashboard" class="sidebar-item active flex items-center p-2 rounded-lg transition">
+                                <i class="fas fa-tachometer-alt mr-3"></i>
+                                Dashboard
+                            </a>
+                        </li>
+                        <li class="mb-1">
+                            <a href="#" id="btn-arquivos" class="sidebar-item flex items-center p-2 rounded-lg transition">
+                                <i class="fas fa-bed mr-3"></i>
+                                Arquivos
+                            </a>
+                        </li>
+                        <li class="mb-1">
+                            <a href="#" id="btn-agente" class="sidebar-item flex items-center p-2 rounded-lg transition">
+                                <i class="fas fa-robot mr-3"></i>
+                                Agente de ia 
+                            </a>
+                        </li>
+                        <li class="mb-1">
+                            <a href="#" id="btn-relatorios" class="sidebar-item flex items-center p-2 rounded-lg transition">
+                                <i class="fas fa-chart-line mr-3"></i>
+                                Relatórios
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                <div>
+                    <div class="text-xs uppercase font-semibold text-indigo-300 mb-2">Configurações</div>
+                    <ul>
+                        <li class="mb-1">
+                            <a href="#" class="sidebar-item flex items-center p-2 rounded-lg transition">
+                                <i class="fas fa-cog mr-3"></i>
+                                Configurações
+                            </a>
+                        </li>
+                        <li class="mb-1">
+                            <a href="#" class="sidebar-item flex items-center p-2 rounded-lg transition">
+                                <i class="fas fa-bell mr-3"></i>
+                                Notificações
+                            </a>
+                        </li>
+                        <li class="mb-1">
+                            <a href="#" class="sidebar-item flex items-center p-2 rounded-lg transition">
+                                <i class="fas fa-question-circle mr-3"></i>
+                                Ajuda
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="flex-1 overflow-auto">
+            <main class="p-6">
+
+                <!-- Painel Dashboard (inicial, visível) -->
+                <div id="pagina-dashboard">
+                    <!-- Upload Section -->
+                    <div class="bg-white rounded-xl shadow-sm p-6 mb-8">
+                        <h2 class="text-lg font-semibold text-gray-800 mb-4">Importar Dados</h2>
+                        
+                        <!-- Upload de Arquivo -->
+                        <div class="border-2 border-dashed border-gray-300 rounded-lg p-8 text-center">
+                            <div class="max-w-md mx-auto">
+                                <i class="fas fa-file-excel text-4xl text-green-600 mb-4"></i>
+                                <h3 class="text-lg font-medium text-gray-700 mb-2">Arraste e solte seu arquivo aqui</h3>
+                                <p class="text-sm text-gray-500 mb-4">ou</p>
+                                <label for="main-upload" class="cursor-pointer bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition inline-block">
+                                    <i class="fas fa-upload mr-2"></i>Selecionar Arquivo
+                                </label>
+                                <input id="main-upload" type="file" accept=".xlsx,.xls,.csv" class="hidden">
+                                <p class="text-xs text-gray-500 mt-4">Formatos suportados: .xlsx, .xls, .csv</p>
+                            </div>
+                        </div>
+                        
+                        <!-- Botão API Compacto -->
+                        <div class="flex justify-end mt-4">
+                            <div class="bg-blue-50 border border-blue-200 rounded-lg p-3 flex items-center gap-3">
+                                <div class="flex gap-2">
+                                    <input type="date" id="period-start" class="border rounded px-2 py-1 text-xs" placeholder="Início">
+                                    <input type="date" id="period-end" class="border rounded px-2 py-1 text-xs" placeholder="Fim">
+                                </div>
+                                <button id="btn-fetch-api" class="bg-blue-600 text-white px-3 py-1 rounded text-sm hover:bg-blue-700 transition flex items-center">
+                                    <i class="fas fa-cloud-download-alt mr-1"></i>API
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <div class="mt-4 text-sm text-gray-600">
+                            <p>Os dados serão processados automaticamente e estarão disponíveis para o agente de IA.</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Metrics Cards -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+                        <div class="bg-white rounded-xl shadow-sm p-6 card-hover transition duration-300">
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <p class="text-gray-500 text-sm">Receita Total</p>
+                                    <h3 id="valor-receita" class="text-2xl font-bold text-gray-800">R$ 0,00</h3>
+                                </div>
+                                <div class="p-3 rounded-full bg-blue-50 text-blue-600">
+                                    <i class="fas fa-wallet text-xl"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="bg-white rounded-xl shadow-sm p-6 card-hover transition duration-300">
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <p class="text-gray-500 text-sm">Despesas</p>
+                                    <h3 id="valor-despesa" class="text-2xl font-bold text-gray-800">R$ 0,00</h3>
+                                </div>
+                                <div class="p-3 rounded-full bg-purple-50 text-purple-600">
+                                    <i class="fas fa-bed text-xl"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="bg-white rounded-xl shadow-sm p-6 card-hover transition duration-300">
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <p class="text-gray-500 text-sm">Saldo</p>
+                                    <h3 id="valor-saldo" class="text-2xl font-bold text-gray-800">R$ 0,00</h3>
+                                </div>
+                                <div class="p-3 rounded-full bg-green-50 text-green-600">
+                                    <i class="fas fa-calendar-check text-xl"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="bg-white rounded-xl shadow-sm p-6 card-hover transition duration-300">
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <p class="text-gray-500 text-sm">Lucro Total</p>
+                                    <h3 id="valor-lucro" class="text-2xl font-bold text-gray-800">R$ 0,00</h3>
+                                </div>
+                                <div class="p-3 rounded-full bg-yellow-50 text-yellow-600">
+                                    <i class="fas fa-star text-xl"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Charts Row -->
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+                        <!-- Revenue vs Target Chart -->
+                        <div class="bg-white rounded-xl shadow-sm p-6">
+                            <div class="flex items-center justify-between mb-4">
+                                <h2 class="text-lg font-semibold text-gray-800">Receita vs Meta</h2>
+                            </div>
+                            <div class="h-64">
+                                <canvas id="revenueChart"></canvas>
+                            </div>
+                        </div>
+                        <!-- Sales Distribution Chart -->
+                        <div class="bg-white rounded-xl shadow-sm p-6">
+                            <div class="flex items-center justify-between mb-4">
+                                <h2 class="text-lg font-semibold text-gray-800">Distribuição de Vendas</h2>
+                            </div>
+                            <div class="h-64">
+                                <canvas id="distributionChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Tabela Financeira -->
+                    <div class="bg-white rounded-xl shadow-sm p-6">
+                        <h2 class="text-lg font-semibold text-gray-800 mb-4">Tabela Resumida</h2>
+                        <div class="overflow-x-auto">
+                            <table class="min-w-full divide-y divide-gray-200">
+                                <thead class="bg-gray-50">
+                                    <tr>
+                                        <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Mês</th>
+                                        <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Receita</th>
+                                        <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Meta</th>
+                                        <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Despesa</th>
+                                        <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Lucro</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="tabela-dados" class="bg-white divide-y divide-gray-200"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Painel Arquivos -->
+                <div id="pagina-arquivos" style="display: none;">
+                    <div class="bg-white rounded-xl shadow-sm p-6 mb-8">
+                        <h2 class="text-lg font-semibold text-gray-800 mb-4">Arquivos Enviados</h2>
+                        <div class="overflow-x-auto">
+                            <table class="min-w-full divide-y divide-gray-200">
+                                <thead class="bg-gray-50">
+                                    <tr>
+                                        <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Nome do Arquivo</th>
+                                        <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Data de Upload</th>
+                                        <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Ação</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="tabela-arquivos" class="bg-white divide-y divide-gray-200"></tbody>
+                            </table>
+                        </div>
+                        <div class="mt-4 text-sm text-gray-600">Clique em um arquivo para atualizar o dashboard com seus dados.</div>
+                    </div>
+                </div>
+
+                <!-- Painel Relatórios -->
+                <div id="pagina-relatorios" style="display: none;">
+                    <div class="bg-white rounded-xl shadow-sm p-6 mb-6">
+                        <h2 class="text-lg font-semibold text-gray-800 mb-2">Comparar Relatórios</h2>
+                        <p class="text-sm text-gray-600 mb-4">
+                            Selecione até <b>6 arquivos</b> enviados para comparar e exportar o relatório consolidado.
+                        </p>
+                        <!-- Lista de arquivos com checkbox -->
+                        <div id="lista-relatorios" class="mb-4">
+                            <!-- Itens preenchidos via JS -->
+                        </div>
+                        <div class="flex items-center space-x-3">
+                            <button id="btn-comparar-relatorios"
+                                class="bg-indigo-600 hover:bg-indigo-700 text-white px-5 py-2 rounded-lg font-semibold transition">
+                                Comparar Selecionados
+                            </button>
+                            <button id="btn-exportar-excel" style="display:none;"
+                                class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg transition">
+                                Exportar Excel
+                            </button>
+                            <button id="btn-exportar-pdf" style="display:none;"
+                                class="bg-rose-600 hover:bg-rose-700 text-white px-4 py-2 rounded-lg transition">
+                                Exportar PDF
+                            </button>
+                        </div>
+                    </div>
+                    <div id="comparativo-preview" style="display:none;">
+                        <div class="bg-white rounded-xl shadow-sm p-6 mb-6">
+                            <h3 class="text-lg font-semibold text-gray-800 mb-4">Análise Comparativa</h3>
+                            <div id="explicacao-comparativo" class="text-gray-600 mb-6"></div>
+                        </div>
+                        <div id="comparativo-graficos"></div>
+                    </div>
+                </div>
+
+                <!-- Painel Agente de IA -->
+<div id="pagina-agente" style="display:none;" class="container mx-auto px-4 py-8 max-w-4xl">
+    <div class="bg-white rounded-xl shadow-lg overflow-hidden">
+        <!-- Header -->
+        <div class="bg-gradient-to-r from-indigo-600 to-purple-600 p-6 text-white">
+            <div class="flex items-center justify-between">
+                <div>
+                    <h2 class="text-2xl font-bold">Assistente de IA Hórus</h2>
+                    <p class="text-indigo-100">Como posso te ajudar hoje?</p>
+                </div>
+                <div class="bg-white/20 p-3 rounded-full">
+                    <i class="fas fa-robot text-2xl"></i>
+                </div>
+            </div>
+        </div>
+        <!-- Chat Container -->
+        <div class="p-6">
+            <!-- Suggestions -->
+            <div class="mb-6">
+                <h3 class="text-sm font-medium text-gray-500 mb-3">SUGESTÕES RÁPIDAS</h3>
+                <div class="flex flex-wrap gap-3">
+                    <div class="suggestion-chip bg-indigo-50 text-indigo-700 px-4 py-2 rounded-full text-sm font-medium" onclick="insertSuggestion(this)">
+                        Como criar um relatório?
+                    </div>
+                    <div class="suggestion-chip bg-indigo-50 text-indigo-700 px-4 py-2 rounded-full text-sm font-medium" onclick="insertSuggestion(this)">
+                        Mostre meus últimos dados
+                    </div>
+                    <div class="suggestion-chip bg-indigo-50 text-indigo-700 px-4 py-2 rounded-full text-sm font-medium" onclick="insertSuggestion(this)">
+                        Explicar análise de vendas
+                    </div>
+                    <div class="suggestion-chip bg-indigo-50 text-indigo-700 px-4 py-2 rounded-full text-sm font-medium" onclick="insertSuggestion(this)">
+                        Dicas para melhorar métricas
+                    </div>
+                </div>
+            </div>
+            <!-- Chat History -->
+            <div id="chat-history" class="mb-6 flex flex-col gap-4 max-h-96 overflow-y-auto p-2">
+                <!-- Mensagem inicial -->
+                <div class="flex flex-col gap-1">
+                    <div class="message-bubble ai-message">
+                        Olá! Sou o assistente de IA do Hórus. Posso te ajudar com análises de dados, criação de relatórios e responder perguntas sobre suas métricas. Como posso te ajudar hoje?
+                    </div>
+                </div>
+            </div>
+            <!-- Input Area -->
+            <div class="border-t pt-4">
+                <div class="relative">
+                    <textarea id="pergunta-ia" rows="2" placeholder="Digite sua pergunta..."
+                        class="w-full p-4 pr-12 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-400 resize-none"></textarea>
+                    <div class="absolute right-3 bottom-3 flex gap-2">
+                        <button id="btn-limpar" class="text-gray-500 hover:text-gray-700 p-1 rounded-full hover:bg-gray-100">
+                            <i class="fas fa-trash-alt"></i>
+                        </button>
+                        <button id="btn-perguntar-ia" disabled
+                            class="bg-indigo-600 hover:bg-indigo-700 text-white p-2 rounded-lg transition disabled:opacity-50 disabled:cursor-not-allowed">
+                            <i class="fas fa-paper-plane"></i>
+                        </button>
+                    </div>
+                </div>
+                <p class="text-xs text-gray-500 mt-2">O Hórus AI pode ocasionalmente gerar informações incorretas. Verifique sempre os dados importantes.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+            </main>
+        </div>
+    </div>
+    <script src="js/main.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</body>
+</html>

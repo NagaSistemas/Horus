@@ -1,0 +1,13 @@
+# METADADOS DA API
+# Total de Reservas: 5
+# Total de Páginas: 1
+# Página Atual: 1
+# Período: 2024-01-15 a 2024-12-31
+# Data de Extração: 2025-08-15 17:21:07
+#
+booking_id,status,checkin,checkout,holder_guest,guests,provider,units,comment,created
+1453994,1,2024-06-23,2024-06-27,"{'name': 'Joao Luiz Oliveira', 'email': 'nagareservas@gmail.com', 'phones': ['62 992933542']}","[{'name': 'Joao Luiz Oliveira', 'email': 'nagareservas@gmail.com', 'phones': ['62 992933542']}]",Contato Direto,bgl(3),,2024-06-18 13:07:15
+1453982,1,2024-06-21,2024-06-22,"{'name': 'joáo pereira', 'email': 'joao123@gmail.com', 'phones': ['62 992933542']}","[{'name': 'joáo pereira', 'email': 'joao123@gmail.com', 'phones': ['62 992933542']}]",Contato Direto,bgl(3),,2024-06-18 13:01:17
+1453978,1,2024-06-19,2024-06-20,"{'name': 'joáo pereira', 'email': 'joao123@gmail.com', 'phones': ['62 992933542']}","[{'name': 'joáo pereira', 'email': 'joao123@gmail.com', 'phones': ['62 992933542']}]",Contato Direto,bgl(1),,2024-06-18 12:58:30
+1453927,1,2024-06-20,2024-06-21,"{'name': 'ALINE OLIVEIRA', 'email': 'aline.amw@gmail.com', 'phones': ['+5562991707099']}","[{'name': 'ALINE OLIVEIRA', 'email': 'aline.amw@gmail.com', 'phones': ['+5562991707099']}]",Contato Direto,bgl(2),,2024-06-18 12:35:52
+1448336,3,2024-06-14,2024-06-16,"{'name': 'teste', 'email': '', 'phones': []}","[{'name': 'teste', 'email': None, 'phones': []}]",Contato Direto,bgl(1),,2024-06-14 10:50:39
