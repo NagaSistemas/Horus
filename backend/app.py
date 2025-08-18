@@ -14,7 +14,7 @@ import re
 
 # Configurações de caminhos
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-FRONTEND_FOLDER = os.path.abspath(os.path.join(BASE_DIR, '..', 'frontend'))
+FRONTEND_FOLDER = os.path.join(BASE_DIR, 'frontend')
 UPLOAD_FOLDER = os.path.join(BASE_DIR, 'uploads')
 DASHBOARD_DATA_FILE = os.path.join(BASE_DIR, 'dashboard.json')
 ALLOWED_EXTENSIONS = {'xlsx', 'xls', 'csv'}
