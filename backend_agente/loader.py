@@ -1,26 +1,14 @@
 import os
 import pandas as pd
-
-
-def read_any_csv(path):
-    """
-    Lê um CSV de forma flexível, tentando diferentes separadores.
-    """
-    try:
-        return pd.read_csv(path, sep=",")
-    except Exception:
-        try:
-            return pd.read_csv(path, sep=";")
-        except Exception as e:
-            raise ValueError(f"Não foi possível ler o CSV {path}: {e}")
+import sys
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'backend')))
+from myutils import read_any_csv
 
 
 def load_qa_from_csv(path):
     df = read_any_csv(path)
     docs = [
-        f"Pergunta: {row['pergunta']}\nResposta: {row['resposta']}"
-        for _, row in df.iterrows()
-    ]
+        f"Pergunta: {row['pergunta']}\nResposta: {row['resposta']}" for _, row in df.iterrows()]
     return docs
 
 
