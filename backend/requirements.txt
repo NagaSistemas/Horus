@@ -3,4 +3,7 @@
  openpyxl
  flask-cors
  SQLAlchemy
- 
+ gunicorn
+ xlrd==1.2.0       # para .xls (as versões novas não leem .xls)
+ requests
+ werkzeug
