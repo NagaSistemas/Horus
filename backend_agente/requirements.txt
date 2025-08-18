@@ -4,3 +4,4 @@ openai
 llama-index
 pandas
 python-dotenv
+myutils

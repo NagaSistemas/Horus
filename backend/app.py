@@ -110,7 +110,7 @@ def upload_file(data_type):
         # Notifica o agente de IA sobre os novos dados
         try:
             import requests
-            requests.post('http://localhost:8000/reload', timeout=2)
+            requests.post('https://perceptive-essence-production.up.railway.app/reload', timeout=2)
         except:
             pass  # Ignora se o agente não estiver rodando
     elif data_type == 'reservations':
@@ -196,7 +196,7 @@ def usar_arquivo(nome_arquivo):
     # Notifica o agente de IA sobre os novos dados
     try:
         import requests
-        requests.post('http://localhost:8000/reload', timeout=2)
+        requests.post('https://perceptive-essence-production.up.railway.app/reload', timeout=2)
     except:
         pass  # Ignora se o agente não estiver rodando
         
@@ -482,7 +482,7 @@ Resumo dos dados:
         
         # Notifica agente IA
         try:
-            requests.post('http://localhost:8000/reload', timeout=2)
+            requests.post('https://perceptive-essence-production.up.railway.app/reload', timeout=2)
         except:
             pass
         
