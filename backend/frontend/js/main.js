@@ -721,7 +721,7 @@ function removeTypingIndicator(indicator) {
 
 // Função para perguntar para o agente IA
 async function perguntarAgenteIA(pergunta) {
-    const resp = await fetch("http://localhost:8000/ask", {
+    const resp = await fetch("https://perceptive-essence-production.up.railway.app/ask", {
         method: "POST",
         headers: {"Content-Type": "application/json"},
         body: JSON.stringify({ pergunta: pergunta })
