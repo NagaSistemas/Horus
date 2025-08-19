@@ -9,6 +9,7 @@ import pandas as pd
 from myutils import process_financial_data, process_reservations_data
 import json
 from myutils import buscar_coluna, COLUNAS_ALIAS
+from dadosia import dadosia_bp  # importa o blueprint
 import calendar
 import re
 
@@ -27,6 +28,8 @@ os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 app = Flask(__name__)
 CORS(app)
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+
+app.register_blueprint(dadosia_bp)
 
 # --- Funções utilitárias ---
 

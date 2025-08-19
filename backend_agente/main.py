@@ -6,10 +6,11 @@ from qa_crud import router as qa_router
 import uvicorn
 import os
 from fastapi.middleware.cors import CORSMiddleware
+import requests
 
 app = FastAPI()
 
-# CORS Middleware (sempre antes das rotas)
+# CORS Middleware
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],  # Liberado para qualquer origem
@@ -29,10 +30,11 @@ def reload_engine():
     index = setup_engine()
 
 def log_pergunta_sem_resposta(pergunta, resposta):
-    import csv, os
+    import csv
     from datetime import datetime
     log_path = "data/perguntas_sem_resposta.csv"
     existe = os.path.exists(log_path)
+    os.makedirs(os.path.dirname(log_path), exist_ok=True)
     with open(log_path, "a", newline='', encoding="utf-8") as f:
         writer = csv.writer(f)
         if not existe:
@@ -43,26 +45,35 @@ def log_pergunta_sem_resposta(pergunta, resposta):
 class Query(BaseModel):
     pergunta: str
 
+# Configura a URL do backend
+BACKEND_URL = os.getenv("BACKEND_URL", "https://horus-production.up.railway.app")
+
 # Endpoint inteligente
 @app.post("/ask")
 def ask(query: Query):
-    # Carrega dados atuais do dashboard
-    dashboard_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'backend', 'dashboard.json'))
     dashboard_data = None
-    
-    if os.path.exists(dashboard_path):
-        import json
-        with open(dashboard_path, 'r', encoding='utf-8') as f:
-            dashboard_data = json.load(f)
-    
-    # Carrega contexto da API
-    api_context_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'backend', 'api_context.txt'))
     api_context = None
-    
-    if os.path.exists(api_context_path):
-        with open(api_context_path, 'r', encoding='utf-8') as f:
-            api_context = f.read()
-    
+
+    # --- Busca dashboard via API ---
+    try:
+        resp = requests.get(f"{BACKEND_URL}/api/dashboard", timeout=5)
+        if resp.status_code == 200:
+            dashboard_data = resp.json()
+        else:
+            print(f"[WARN] Dashboard não encontrado: {resp.status_code}")
+    except Exception as e:
+        print(f"[ERROR] Falha ao buscar dashboard: {e}")
+
+    # --- Busca contexto via API ---
+    try:
+        resp = requests.get(f"{BACKEND_URL}/api-context", timeout=5)
+        if resp.status_code == 200:
+            api_context = resp.json()
+        else:
+            print(f"[WARN] Contexto não encontrado: {resp.status_code}")
+    except Exception as e:
+        print(f"[ERROR] Falha ao buscar contexto: {e}")
+
     resposta_obj = answer_with_context(index, query.pergunta, dashboard_data, api_context)
     resposta = str(resposta_obj.text) if hasattr(resposta_obj, "text") else str(resposta_obj)
 
@@ -71,14 +82,14 @@ def ask(query: Query):
 
     return {"resposta": resposta}
 
-# ========== NOVO ENDPOINT PARA RELOAD MANUAL ==========
+# Endpoint para reload manual
 @app.post("/reload")
 def reload():
     reload_engine()
     print("Agente recarregado manualmente por API.")
     return {"ok": True}
 
-# (Opcional) Servir frontend localmente. Em produção, não precisa!
+# Servir frontend localmente (opcional)
 FRONTEND_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), "../frontend"))
 if os.path.exists(FRONTEND_DIR):
     app.mount("/", StaticFiles(directory=FRONTEND_DIR, html=True), name="static")
