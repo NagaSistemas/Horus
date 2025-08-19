@@ -501,5 +501,6 @@ Resumo dos dados:
         return jsonify({'error': f'Erro ao buscar dados da API: {str(e)}'}), 500
 
 
-if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5000, debug=True)
+if __name__ == "__main__":
+    port = int(os.environ.get("PORT", 5000))  # Railway define a porta
+    app.run(host="0.0.0.0", port=port, debug=True)
