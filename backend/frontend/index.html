@@ -77,11 +77,81 @@
                 </div>
             </div>
         </div>
+<!-- Header Mobile -->
+<header class="md:hidden flex items-center justify-between bg-white px-4 py-3 shadow fixed w-full top-0 z-30">
+  <button id="sidebar-open" class="text-white text-2xl bg-indigo-900 p-2 rounded">
+    <i class="fas fa-bars"></i>
+  </button>
+  <span class="font-bold text-lg text-indigo-900">Hórus</span>
+</header>
 
-        <!-- Main Content -->
-        <div class="flex-1 overflow-auto">
-            <main class="p-6">
+<!-- Sidebar -->
+<div id="sidebar" class="fixed inset-y-0 left-0 w-64 bg-indigo-900 text-white transform -translate-x-full transition-transform duration-300 ease-in-out z-50">
+  <div class="flex items-center justify-between p-4 border-b border-indigo-800">
+    <div class="flex items-center space-x-2">
+      <i class="fas fa-hotel text-2xl text-white"></i>
+      <span class="text-xl font-bold">Hórus</span>
+    </div>
+    <button id="sidebar-close" class="md:hidden text-white text-2xl">
+      <i class="fas fa-times"></i>
+    </button>
+  </div>
 
+  <div class="p-4">
+    <div class="mb-6">
+      <div class="text-xs uppercase font-semibold text-indigo-300 mb-2">Menu Principal</div>
+      <ul>
+        <li class="mb-1">
+          <a href="#" id="btn-dashboard-moba" class="sidebar-item active flex items-center p-2 rounded-lg transition">
+            <i class="fas fa-tachometer-alt mr-3"></i> Dashboard
+          </a>
+        </li>
+        <li class="mb-1">
+          <a href="#" id="btn-arquivos-moba" class="sidebar-item flex items-center p-2 rounded-lg transition">
+            <i class="fas fa-bed mr-3"></i> Arquivos
+          </a>
+        </li>
+        <li class="mb-1">
+          <a href="#" id="btn-agente-moba" class="sidebar-item flex items-center p-2 rounded-lg transition">
+            <i class="fas fa-robot mr-3"></i> Agente de IA
+          </a>
+        </li>
+        <li class="mb-1">
+          <a href="#" id="btn-relatorios-moba" class="sidebar-item flex items-center p-2 rounded-lg transition">
+            <i class="fas fa-chart-line mr-3"></i> Relatórios
+          </a>
+        </li>
+      </ul>
+    </div>
+
+    <div>
+      <div class="text-xs uppercase font-semibold text-indigo-300 mb-2">Configurações</div>
+      <ul>
+        <li class="mb-1">
+          <a href="#" class="sidebar-item flex items-center p-2 rounded-lg transition">
+            <i class="fas fa-cog mr-3"></i> Configurações
+          </a>
+        </li>
+        <li class="mb-1">
+          <a href="#" class="sidebar-item flex items-center p-2 rounded-lg transition">
+            <i class="fas fa-bell mr-3"></i> Notificações
+          </a>
+        </li>
+        <li class="mb-1">
+          <a href="#" class="sidebar-item flex items-center p-2 rounded-lg transition">
+            <i class="fas fa-question-circle mr-3"></i> Ajuda
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- Overlay -->
+<div id="overlay" class="fixed inset-0 bg-black bg-opacity-50 hidden z-40 md:hidden"></div>
+
+         <!-- Main Content -->
+    <div class="flex-1 flex flex-col overflow-auto">
                 <!-- Painel Dashboard (inicial, visível) -->
                 <div id="pagina-dashboard">
                     <!-- Upload Section -->

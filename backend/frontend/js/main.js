@@ -1,17 +1,55 @@
 document.addEventListener('DOMContentLoaded', function () {
     // --- Sidebar Mobile (hamburger)
-    const sidebarToggle = document.getElementById('sidebar-toggle');
-    if (sidebarToggle) {
-        sidebarToggle.addEventListener('click', function () {
-            document.querySelector('.sidebar').classList.toggle('sidebar-open');
-        });
-    }
-    const sidebarClose = document.getElementById('sidebar-close');
-    if (sidebarClose) {
-        sidebarClose.addEventListener('click', function () {
-            document.querySelector('.sidebar').classList.remove('sidebar-open');
-        });
-    }
+    const sidebar = document.getElementById("sidebar");
+const overlay = document.getElementById("overlay");
+const openBtn = document.getElementById("sidebar-open");
+const closeBtn = document.getElementById("sidebar-close");
+
+// Abrir menu
+openBtn.addEventListener("click", () => {
+  sidebar.classList.remove("-translate-x-full");
+  overlay.classList.remove("hidden");
+});
+
+// Fechar menu
+const closeSidebar = () => {
+  sidebar.classList.add("-translate-x-full");
+  overlay.classList.add("hidden");
+};
+
+closeBtn.addEventListener("click", closeSidebar);
+overlay.addEventListener("click", closeSidebar);
+
+ // --- Sidebar: troca active e painel ao clicar
+    document.getElementById('btn-dashboard-moba').addEventListener('click', function (e) {
+        e.preventDefault();
+        document.querySelectorAll('.sidebar-item').forEach(i => i.classList.remove('active'));
+        this.classList.add('active');
+        mostrarPainel('dashboard');
+    });
+
+    document.getElementById('btn-arquivos-moba').addEventListener('click', function (e) {
+        e.preventDefault();
+        document.querySelectorAll('.sidebar-item').forEach(i => i.classList.remove('active'));
+        this.classList.add('active');
+        mostrarPainel('arquivos');
+        carregarArquivos();
+    });
+
+    document.getElementById('btn-relatorios-moba').addEventListener('click', function (e) {
+        e.preventDefault();
+        document.querySelectorAll('.sidebar-item').forEach(i => i.classList.remove('active'));
+        this.classList.add('active');
+        mostrarPainel('relatorios');
+         carregarRelatoriosDisponiveis();
+    });
+
+    document.getElementById('btn-agente-moba').addEventListener('click', function (e) {
+    e.preventDefault();
+    document.querySelectorAll('.sidebar-item').forEach(i => i.classList.remove('active'));
+    this.classList.add('active');
+    mostrarPainel('agente de ia');
+});
 
     // --- Referências dos painéis
     const painelDashboard = document.getElementById('pagina-dashboard');
